@@ -48,6 +48,7 @@ const getCommitsSinceLastTag = async () => {
       })
       .pipe(through2.obj(function (chunk, enc, callback) {
         this.push(chunk);
+        console.log(JSON.stringify(chunk, undefined, 2));
         callback()
       }))
       .on('data', (data) => {
