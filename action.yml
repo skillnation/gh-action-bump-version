@@ -66,6 +66,10 @@ inputs:
     description: 'Set version bump ignore policy'
     default: 'all'
     required: false
+  commits-comparison:
+    description: 'Optional. has three modes: "last_tags" (def) | "event" | "YOUR_TAG_NAME". Event means it will just look at the commits present in the GitHub action event. "last_tags" compares the commits between the last two tags. Any other mode will be interpreted as a specific tag name, which will be used to compare it against the latest tag.'
+    default: 'last_tags'
+    required: false
   push:
     description: '[DEPRECATED] Set to false to skip pushing the new tag'
     default: 'true'

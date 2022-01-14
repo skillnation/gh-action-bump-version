@@ -39,8 +39,7 @@ const getLastTagName = async () => { // string
   return executeCmd('git tag --sort=committerdate | tail -1')
 }
 
-const getCommitsSinceLastTag = async () => {
-  const lastTagName = await getLastTagName()
+const getCommitsSinceLastTag = async (lastTagName) => {
   console.log('Last Tag name:', lastTagName)
 
   return new Promise((resolve) => {
@@ -76,7 +75,8 @@ const workspace = process.env.GITHUB_WORKSPACE;
   // if (!event.commits) {
   //   console.log("Couldn't find any commits in this event, incrementing patch version...");
   // }
-  const commits = await getCommitsSinceLastTag()
+  const compareTag = process.env['INPUT_COMMITS-COMPARISON'] === 'last_tags' ? await getLastTagName() : process.env['INPUT_COMMITS-COMPARISON'];
+  const commits = await getCommitsSinceLastTag(compareTag)
   if (commits == null || commits.length === 0) {
     tools.exit.neutral('There were no commits to process!')
     return
