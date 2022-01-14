@@ -1,5 +1,5 @@
 // test
-const { execSync, spawn } = require('child_process');
+const { execSync, spawn, exec } = require('child_process');
 const { existsSync } = require('fs');
 const { EOL } = require('os');
 const path = require('path');
