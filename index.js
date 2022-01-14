@@ -78,7 +78,7 @@ const workspace = process.env.GITHUB_WORKSPACE;
   const compareTag = process.env['INPUT_COMMITS-COMPARISON'] === 'last_tags' ? await getLastTagName() : process.env['INPUT_COMMITS-COMPARISON'];
   const commits = await getCommitsSinceLastTag(compareTag)
   if (commits == null || commits.length === 0) {
-    tools.exit.neutral('There were no commits to process!')
+    exitNeutral('There were no commits to process!')
     return
   }
 
@@ -287,6 +287,11 @@ function getPackageJson() {
 
 function exitSuccess(message) {
   console.info(`✔  success   ${message}`);
+  process.exit(0);
+}
+
+function exitNeutral(message) {
+  console.info(`o  neutral   ${message}`);
   process.exit(0);
 }
 
