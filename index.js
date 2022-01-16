@@ -5,6 +5,7 @@ const { EOL } = require('os');
 const path = require('path');
 const gitLog = require('git-log-parser')
 const through2 = require('through2')
+const core = require('@actions/core');
 
 // Change working directory if user defined PACKAGEJSON_DIR
 if (process.env.PACKAGEJSON_DIR) {
@@ -246,7 +247,8 @@ const workspace = process.env.GITHUB_WORKSPACE;
     console.log('current:', current, '/', 'version:', version);
     newVersion = execSync(`npm version --git-tag-version=false ${version}`).toString().trim().replace(/^v/, '');
     newVersion = `${tagPrefix}${newVersion}`;
-    console.log(`::set-output name=newTag::${newVersion}`);
+    console.log(`New version: ${newVersion}`);
+    core.setOutput('newTag', newVersion);
     try {
       // to support "actions/checkout@v1"
       if (process.env['INPUT_SKIP-COMMIT'] !== 'true') {
