@@ -247,8 +247,6 @@ const workspace = process.env.GITHUB_WORKSPACE;
     console.log('current:', current, '/', 'version:', version);
     newVersion = execSync(`npm version --git-tag-version=false ${version}`).toString().trim().replace(/^v/, '');
     newVersion = `${tagPrefix}${newVersion}`;
-    console.log(`New version: ${newVersion}`);
-    core.setOutput('newTag', newVersion);
     try {
       // to support "actions/checkout@v1"
       if (process.env['INPUT_SKIP-COMMIT'] !== 'true') {
@@ -273,6 +271,9 @@ const workspace = process.env.GITHUB_WORKSPACE;
         await runInWorkspace('git', ['push', remoteRepo]);
       }
     }
+
+    core.setOutput('newTag', newVersion);
+    console.log(`New version: ${newVersion}`);
   } catch (e) {
     logError(e);
     exitFailure('Failed to bump version');
